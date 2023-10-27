@@ -46,7 +46,7 @@ useEffect(() => {
       <div className="flex flex-wrap -m-4">
         {product.filter((obj) => obj.title.toLowerCase().includes(searchkey)).filter((obj) => obj.category.toLowerCase().includes(filterType)).filter((obj) => obj.price.includes(filterPrice)).slice(0,8).map((item, index) => {
           return (
-            <div onClick={()=> window.location.href = `/productinfo/${item.id}`}  key={index} className="p-4 md:w-1/4  drop-shadow-lg ">
+            <div onClick={()=> window.location.href = `/productinfo/${item.id}`}  key={index} className="mt-4 mb-11 p-4 w-[100%] md:w-[450px]  drop-shadow-lg ">
               <div
                 className="h-full border-2 hover:shadow-gray-100 hover:shadow-2xl transition-shadow duration-300 ease-in-out    border-gray-200 border-opacity-60 rounded-2xl overflow-hidden"
                 style={{
@@ -54,9 +54,9 @@ useEffect(() => {
                   color: mode === "dark" ? "white" : "",
                 }}
               >
-                <div className="flex justify-center cursor-pointer">
+                <div className="flex items-center cursor-pointer">
                   <img
-                    className=" rounded-2xl w-full h-80 p-2 hover:scale-110 transition-scale-110  duration-300 ease-in-out"
+                    className="rounded-2xl object-cover p-2 hover:scale-110 transition-scale-110  duration-300 ease-in-out"
                     src={item.imageUrl}
                     alt="blog"
                   />

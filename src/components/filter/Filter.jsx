@@ -5,6 +5,11 @@ function Filter() {
     const context = useContext(myContext)
     const { mode,searchkey, setSearchkey,filterType,setFilterType,filterPrice,setFilterPrice,product } = context
 
+    const handleReset = () => {
+      setFilterType("wall lamp");
+      setFilterPrice("2500");
+    }
+
     return (
         <div>
            <div className=' container mx-auto px-4 mt-5 '>
@@ -32,7 +37,7 @@ function Filter() {
                         <p className="font-medium">
                             Filters
                         </p>
-                        <button className="px-4 py-2 bg-gray-50hover:bg-gray-200 text-gray-800 text-sm font-medium rounded-md" style={{ color: mode === 'dark' ? 'white' : '' }}>
+                        <button className="px-4 py-2 bg-gray-50hover:bg-gray-200 text-gray-800 text-sm font-medium rounded-md" style={{ color: mode === 'dark' ? 'white' : '' }} onClick={handleReset}>
                             Reset Filter
                         </button>
                     </div>

@@ -23,9 +23,7 @@ export default function Navbar() {
     navigate("/login");
   };
 
-  const cartItems = useSelector((state) => state.cart)
-
-  
+  const cartItems = useSelector((state) => state.cart);
 
   return (
     <div className="bg-white sticky top-0 z-50  ">
@@ -76,6 +74,7 @@ export default function Navbar() {
                     to={"/allproducts"}
                     className="text-sm font-medium text-gray-900 "
                     style={{ color: mode === "dark" ? "white" : "" }}
+                    onClick={() => setOpen(false)}
                   >
                     All Products
                   </Link>
@@ -86,6 +85,7 @@ export default function Navbar() {
                         to={"/order"}
                         style={{ color: mode === "dark" ? "white" : "" }}
                         className="-m-2 block p-2 font-medium text-gray-900"
+                        onClick={() => setOpen(false)}
                       >
                         Order
                       </Link>
@@ -100,6 +100,7 @@ export default function Navbar() {
                         to={"/dashboard"}
                         className="-m-2 block p-2 font-medium text-gray-900"
                         style={{ color: mode === "dark" ? "white" : "" }}
+                        onClick={() => setOpen(false)}
                       >
                         admin
                       </Link>
@@ -113,30 +114,42 @@ export default function Navbar() {
                       <a
                         className="-m-2 block p-2 font-medium text-gray-900 cursor-pointer"
                         style={{ color: mode === "dark" ? "white" : "" }}
-                        onClick={logout}
+                        onClick={() => {
+                          logout();
+                          setOpen(false);
+                        }}
                       >
                         Logout
                       </a>
                     </div>
                   ) : (
-                    ""
+                    <div className="flow-root">
+                      <a
+                        className="-m-2 block p-2 font-medium text-gray-900 cursor-pointer"
+                        style={{ color: mode === "dark" ? "white" : "" }}
+                        onClick={() => {navigate("/login");
+                      setOpen(false)}}
+                      >
+                        Login
+                      </a>
+                    </div>
                   )}
 
-                  <div className="flow-root">
+                  {
+                    user ? (<div className="flow-root">
                     <Link
-                      to={"/"}
-                      className="-m-2 block p-2 font-medium text-gray-900 cursor-pointer"
+                      to={"/order"}
+                      className=" flex p-2 font-medium items-center justify-center text-white bg-purple-600 h-8 w-8 rounded-xl cursor-pointer"
                     >
-                      <img
-                        className="inline-block w-10 h-10 rounded-full"
-                        src="https://overreacted.io/static/profile-pic-c715447ce38098828758e525a1128b87.jpg"
-                        alt="Dan_Abromov"
-                      />{" "}
+                    <h1 className="text-[20px]">{user?.user?.email[0].toUpperCase()}</h1>
                     </Link>
-                  </div>
+                  </div>) : ("")
+                  }
+                  
+
                 </div>
 
-                <div className="border-t border-gray-200 px-4 py-6">
+                {/*<div className="border-t border-gray-200 px-4 py-6">
                   <a href="#" className="-m-2 flex items-center p-2">
                     <img
                       src="img/indiaflag.png"
@@ -151,7 +164,7 @@ export default function Navbar() {
                     </span>
                     <span className="sr-only">, change currency</span>
                   </a>
-                </div>
+                </div>*/}
               </Dialog.Panel>
             </Transition.Child>
           </div>
@@ -252,11 +265,17 @@ export default function Navbar() {
                       Logout
                     </a>
                   ) : (
-                    ""
+                    <a
+                      className="text-sm font-medium text-gray-700 cursor-pointer  "
+                      style={{ color: mode === "dark" ? "white" : "" }}
+                      onClick={() => navigate("/login")}
+                    >
+                      Login
+                    </a>
                   )}
                 </div>
 
-                <div className="hidden lg:ml-8 lg:flex">
+                {/*<div className="hidden lg:ml-8 lg:flex">
                   <a href="#" className="flex items-center text-gray-700 ">
                     <img
                       src="https://ecommerce-sk.vercel.app/img/indiaflag.png"
@@ -270,16 +289,19 @@ export default function Navbar() {
                       INDIA
                     </span>
                   </a>
-                </div>
-                <div className="hidden lg:ml-8 lg:flex">
-                  <a href="#" className="flex items-center text-gray-700 ">
-                    <img
-                      className="inline-block w-10 h-10 rounded-full"
-                      src="https://overreacted.io/static/profile-pic-c715447ce38098828758e525a1128b87.jpg"
-                      alt="Dan_Abromov"
-                    />
-                  </a>
-                </div>
+                  </div>*/}
+                 
+                  {
+                    user? (<div className="hidden lg:flex items-center justify-center h-8 w-8 rounded-xl lg:ml-8 border bg-purple-600">
+                    <a
+                      onClick={() => navigate("/order")}
+                      className="flex items-center justify-center text-white bg-purple-600 h-8 w-8 rounded-xl cursor-pointer"
+                    >
+                      <h1 className="text-[20px]">{user?.user?.email[0].toUpperCase()}</h1>
+                    </a>
+                  </div>) : ("")
+                  }
+                
 
                 {/* Search */}
                 <div className="flex lg:ml-6">

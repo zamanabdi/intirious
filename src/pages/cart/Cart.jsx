@@ -7,12 +7,14 @@ import { deleteFromCart } from "../../redux/cartSlice";
 import { toast } from "react-toastify";
 import { addDoc, collection } from "firebase/firestore";
 import { fireDB } from "../../firebase/FirebaseConfig";
+import { useNavigate } from "react-router-dom";
 
 function Cart() {
   const context = useContext(myContext);
   const { mode } = context;
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const cartItems = useSelector((state) => state.cart);
   console.log(cartItems);
@@ -48,6 +50,18 @@ function Cart() {
   const [phoneNumber, setPhoneNumber] = useState("");
 
   const buyNow = async () => {
+    if(cartItems.length === 0){
+      return toast.error("No Items added in Cart",{
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      })
+    }
     // validation
     if (name === "" || address == "" || pincode == "" || phoneNumber == "") {
       return toast.error("All fields are required", {
@@ -118,6 +132,11 @@ function Cart() {
     console.log(pay);
   };
 
+  useEffect(() => {
+  const user = localStorage.getItem('user');
+  console.log(user);
+  },[])
+
   return (
     <Layout>
       <div
@@ -133,17 +152,20 @@ function Cart() {
             {cartItems.map((item, index) => {
               return (
                 <div
-                  className="justify-between mb-6 rounded-lg border  drop-shadow-xl bg-white p-6  sm:flex  sm:justify-start"
+                  className="justify-between mb-6 rounded-lg border  drop-shadow-xl bg-white p-6  sm:flex  sm:justify-start border-red-600"
                   style={{
                     backgroundColor: mode === "dark" ? "rgb(32 33 34)" : "",
                     color: mode === "dark" ? "white" : "",
                   }}
                 >
-                  <img
+                
+                <img
                     src={item.imageUrl}
                     alt="product-image"
                     className="w-full rounded-lg sm:w-40"
                   />
+                
+                  
                   <div className="sm:ml-4 sm:flex sm:w-full sm:justify-between">
                     <div className="mt-5 sm:mt-0">
                       <h2

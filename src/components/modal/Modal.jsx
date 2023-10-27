@@ -1,8 +1,12 @@
 import { Dialog, Transition } from '@headlessui/react'
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export default function Modal({name, address, pincode, phoneNumber, setName, setAddress, setPincode, setPhoneNumber, buyNow}) {
-    let [isOpen, setIsOpen] = useState(false)
+    let [isOpen, setIsOpen] = useState(false);
+    const navigate = useNavigate();
 
     function closeModal() {
         setIsOpen(false)
@@ -12,12 +16,27 @@ export default function Modal({name, address, pincode, phoneNumber, setName, set
         setIsOpen(true)
     }
 
+    const cartItems = useSelector((state) => state.cart);
+    
+
+    const handlePayment = () => {
+        const user = localStorage.getItem('user');
+        if(user === null){
+            navigate("/login")
+        }else if(cartItems.length == 0){
+           toast.error("No items present in the cart")
+        }else{
+            openModal();
+        }
+    }
+    
+
     return (
         <>
             <div className="  text-center rounded-lg text-white font-bold">
                 <button
                     type="button"
-                    onClick={openModal}
+                    onClick={handlePayment}
                     className="w-full  bg-violet-600 py-2 text-center rounded-lg text-white font-bold bg-green-600"
                 >
                     Buy Now
