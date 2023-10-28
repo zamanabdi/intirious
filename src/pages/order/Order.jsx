@@ -7,11 +7,15 @@ function Order() {
   const userid = JSON.parse(localStorage.getItem('user')).user.uid
   const context = useContext(myContext)
   const { mode, loading, order } = context
+
   return (
     <Layout>
+    <>
+    <h1 style={{display:"flex",justifyContent:"center",alignItems:"center",fontWeight:"bold",marginTop:"5px"}}>Your Order History</h1>
       {loading && <Loader />}
+
       {order.length > 0 ?
-        (<>
+        (
           <div className=" h-full pt-10">
             {
               order.filter(obj => obj.userid == userid).map((order) => {
@@ -29,6 +33,7 @@ function Order() {
                                   <h2 className="text-md font-bold text-gray-900 p-4" style={{ color: mode === 'dark' ? 'white' : '' }}>{item.title}</h2>
                                   <p className="mt-1 text-xs text-gray-700 px-4" style={{ color: mode === 'dark' ? 'white' : '' }}>{item.description}</p>
                                   <p className="mt-1 text-xs text-gray-700 px-4" style={{ color: mode === 'dark' ? 'white' : '' }}>{item.price}</p>
+                                  <h2 className="text-md font-bold text-gray-900 p-4" style={{ color: mode === 'dark' ? 'white' : '' }}>Order confirm</h2>
                                 </div>
                               </div>
                             </div>
@@ -41,13 +46,17 @@ function Order() {
               })
             }
           </div>
-        </>)
+        )
         :
-        (
-          <h2 className=' text-center tex-2xl text-white'>Not Order</h2>
+        ( <div className='h-full pt-10'>
+          <p>no orders placed</p>
+          </div>
+          
+          
         )
 
       }
+      </>
     </Layout>
   )
 }

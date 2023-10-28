@@ -76,6 +76,9 @@ function Cart() {
       });
     }
 
+    //validation for user input
+    
+
     const addressInfo = {
       name,
       address,
@@ -135,12 +138,17 @@ function Cart() {
   useEffect(() => {
   const user = localStorage.getItem('user');
   console.log(user);
-  },[])
+  },[]);
+
+  useEffect(() => {
+    window.scrollTo(0,0)
+   },[])
+   
 
   return (
     <Layout>
       <div
-        className="h-screen bg-gray-100 pt-5 mb-[60%]"
+        className="h-[100%] bg-gray-100 pt-5"
         style={{
           backgroundColor: mode === "dark" ? "#282c34" : "",
           color: mode === "dark" ? "white" : "",
@@ -152,7 +160,7 @@ function Cart() {
             {cartItems.map((item, index) => {
               return (
                 <div
-                  className="justify-between mb-6 rounded-lg border  drop-shadow-xl bg-white p-6  sm:flex  sm:justify-start border-red-600"
+                  className="justify-between mb-6 rounded-lg border  drop-shadow-xl bg-white p-6  sm:flex  sm:justify-start"
                   style={{
                     backgroundColor: mode === "dark" ? "rgb(32 33 34)" : "",
                     color: mode === "dark" ? "white" : "",
@@ -162,7 +170,7 @@ function Cart() {
                 <img
                     src={item.imageUrl}
                     alt="product-image"
-                    className="w-full rounded-lg sm:w-40"
+                    className="w-full object-contain rounded-lg sm:w-40"
                   />
                 
                   

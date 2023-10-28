@@ -26,6 +26,9 @@ const deleteCart = () => {
 }
 
 
+
+
+
   return (
     <Layout>
     <div className="flex gap-5 justify-center">

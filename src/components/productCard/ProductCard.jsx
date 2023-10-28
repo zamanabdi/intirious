@@ -3,6 +3,7 @@ import myContext from "../../context/data/myContext";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../redux/cartSlice";
 import { toast } from "react-toastify";
+import Loader from "../loader/Loader";
 
 function ProductCard({ message }) {
   const context = useContext(myContext);
@@ -21,6 +22,9 @@ function ProductCard({ message }) {
     localStorage.setItem('cart',JSON.stringify(cartItems));
   },[cartItems])
 
+  useEffect(() => {
+ console.log(product.length);
+  },[])
 
 
 
@@ -37,8 +41,9 @@ function ProductCard({ message }) {
           <div class="h-1 w-20 bg-pink-600 rounded"></div>
         </div>
 
-        <div className="flex flex-wrap -m-4">
-          {product.filter((obj) => obj.title.toLowerCase().includes(searchkey)).filter((obj) => obj.category.toLowerCase().includes(filterType)).filter((obj) => obj.price.includes(filterPrice)).map((item, index) => {
+        {
+          product.length === 0? <Loader/> : <div className="flex flex-wrap -m-4 justify-center">
+          {product.filter((obj) => obj.title.toLowerCase().includes(searchkey)).filter((obj) => obj.category.toLowerCase().includes(filterType)).filter((obj) => obj.price.includes(filterPrice)).slice(0,6).map((item, index) => {
 
             return (
               
@@ -52,7 +57,7 @@ function ProductCard({ message }) {
                 >
                   <div className="flex items-center cursor-pointer overflow-hidden">
                     <img
-                      className=" rounded-2xl object-cover hover:scale-110 transition-scale-110  duration-300 ease-in-out"
+                      className=" rounded-2xl w-full h-[400px] object-cover hover:scale-110 transition-scale-110  duration-300 ease-in-out"
                       src={item.imageUrl}
                       alt="blog"
                     />
@@ -93,6 +98,8 @@ function ProductCard({ message }) {
             );
           })}
         </div>
+        }
+        
       </div>
     </section>
   );

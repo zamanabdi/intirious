@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import myContext from '../../context/data/myContext';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { auth } from '../../firebase/FirebaseConfig.jsx';
 import { signInWithEmailAndPassword } from 'firebase/auth';
@@ -38,6 +38,12 @@ function Login() {
         setLoading(false);
       }
     }
+
+    useEffect(() => {
+        window.scrollTo(0,0)
+       },[])
+       
+       
    
     return (
         <div className=' flex justify-center items-center h-screen'>
