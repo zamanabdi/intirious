@@ -6,7 +6,10 @@ import { fireDB } from '../../firebase/FirebaseConfig';
 
 
 const myState = (props) => {
+    const [orderStatus,setOrderStatus] = useState("Order Placed");
     const [mode,setMode] = useState('light');
+    //const [paymentStatus,setPaymentStatus] = useState(false);
+
     
 
     const toggleMode = () => {
@@ -35,8 +38,7 @@ const myState = (props) => {
           year:"numeric",
         }
       )
-
-    });
+});
 
     const addproduct = async() => {
       if(products.title == null || products.price == null || products.imageUrl == null || products.category == null || products.description == null ){
@@ -138,10 +140,10 @@ const myState = (props) => {
         const ordersArray = [];
         result.forEach((doc) => {
           ordersArray.push(doc.data());
-          setLoading(false)
+          setLoading(false);
         });
         setOrder(ordersArray);
-        console.log(ordersArray)
+        //console.log(ordersArray)
         setLoading(false);
       } catch (error) {
         console.log(error)
@@ -162,7 +164,7 @@ const myState = (props) => {
         setLoading(false)
       });
       setUser(usersArray);
-      console.log(usersArray)
+      //console.log(usersArray)
       setLoading(false);
     } catch (error) {
       console.log(error)
@@ -185,8 +187,9 @@ const myState = (props) => {
 
 
 
+
   return (
-    <MyContext.Provider value={{mode,toggleMode,loading,setLoading,products,setProducts,addproduct,product,edithandle,updateProduct,deleteProduct,order,user,searchkey, setSearchkey,filterType,setFilterType,filterPrice,setFilterPrice}}>
+    <MyContext.Provider value={{mode,toggleMode,loading,setLoading,products,setProducts,addproduct,product,edithandle,updateProduct,deleteProduct,order,user,searchkey, setSearchkey,filterType,setFilterType,filterPrice,setFilterPrice,orderStatus,setOrderStatus}}>
     {props.children}
     </MyContext.Provider>
   )

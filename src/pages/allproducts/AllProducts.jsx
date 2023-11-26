@@ -5,10 +5,13 @@ import { addToCart } from "../../redux/cartSlice";
 import {toast} from "react-toastify";
 import Layout from "../../components/layout/Layout";
 import Filter from "../../components/filter/Filter";
+import { useNavigate } from "react-router-dom";
+import amazon from "../../assets/amazon.png";
 
 function ProductCard() {
   const context = useContext(myContext);
   const { mode, product,searchkey, setSearchkey,filterType,setFilterType,filterPrice,setFilterPrice } = context;
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart);
@@ -46,7 +49,7 @@ useEffect(() => {
       <div className="flex flex-wrap justify-center -m-4">
         {product.filter((obj) => obj.title.toLowerCase().includes(searchkey)).filter((obj) => obj.category.toLowerCase().includes(filterType)).filter((obj) => obj.price.includes(filterPrice)).map((item, index) => {
           return (
-            <div onClick={()=> window.location.href = `/productinfo/${item.id}`}  key={index} className="mt-4 mb-11 p-4 w-[100%] md:w-[450px]  drop-shadow-lg ">
+            <div onClick={() => navigate(`/productinfo/${item.id}`)}  key={index} className="mt-4 mb-11 p-4 w-[100%] md:w-[450px]  drop-shadow-lg ">
               <div
                 className="h-full border-2 hover:shadow-gray-100 hover:shadow-2xl transition-shadow duration-300 ease-in-out    border-gray-200 border-opacity-60 rounded-2xl overflow-hidden"
                 style={{
@@ -75,12 +78,24 @@ useEffect(() => {
                     {item.title}
                   </h1>
                   {/* <p className="leading-relaxed mb-3">{item.description.}</p> */}
-                  <p
-                    className="leading-relaxed mb-3"
-                    style={{ color: mode === "dark" ? "white" : "" }}
-                  >
-                    ₹ {item.price}
-                  </p>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:"5px"}}>
+
+                    {/* price */}
+                    <p
+                      className="leading-relaxed mb-3"
+                      style={{ color: mode === "dark" ? "white" : "" }}
+                    >
+                      ₹ {item.price}
+                    </p>
+
+                    {/* amazon logo */}
+                    <a href="https://www.amazon.in/">
+                    <img src={amazon} alt="amazon" width={"80px"}/>
+                    </a>
+                    
+
+                    </div>
+                    
                   <div className=" flex justify-center">
                     <button
                       onClick={() => addCart(item)}

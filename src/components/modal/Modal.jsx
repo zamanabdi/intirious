@@ -14,6 +14,7 @@ export default function Modal({
   setPincode,
   setPhoneNumber,
   buyNow,
+  paymentStatus
 }) {
   let [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
@@ -28,16 +29,24 @@ export default function Modal({
 
   const cartItems = useSelector((state) => state.cart);
 
+  {/* handle payment */}
   const handlePayment = () => {
     const user = localStorage.getItem("user");
+    const cart = localStorage.getItem('cart');
     if (user === null) {
       navigate("/login");
     } else if (cartItems.length == 0) {
       toast.error("No items present in the cart");
     } else {
       openModal();
+      
     }
   };
+
+
+
+  
+  
 
 
   

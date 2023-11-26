@@ -10,14 +10,15 @@ import { fireDB } from "../../firebase/FirebaseConfig";
 import { useNavigate } from "react-router-dom";
 
 function Cart() {
+  const [paymentStatus,setPaymentStatus] = useState(false);
   const context = useContext(myContext);
-  const { mode } = context;
+  const { mode,orderStatus,setOrderStatus} = context;
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const cartItems = useSelector((state) => state.cart);
-  console.log(cartItems);
+  //console.log(cartItems);
 
   const deleteCart = (item) => {
     dispatch(deleteFromCart(item));
@@ -48,6 +49,12 @@ function Cart() {
   const [address, setAddress] = useState("");
   const [pincode, setPincode] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  
+
+  
+  
+  
+
 
   const buyNow = async () => {
     if(cartItems.length === 0){
@@ -100,12 +107,15 @@ function Cart() {
       name: "Intirious Design & Collection",
       description: "for testing purpose",
       handler: function (response) {
-        console.log(response);
+        //console.log(response);
+        setPaymentStatus(true);
         toast.success("Payment Successful");
+        
 
         const paymentId = response.razorpay_payment_id;
 
         const orderInfo = {
+          orderStatus,
           cartItems,
           addressInfo,
           date: new Date().toLocaleString("en-US", {
@@ -132,17 +142,25 @@ function Cart() {
 
     var pay = new window.Razorpay(options);
     pay.open();
-    console.log(pay);
+    //console.log(pay);
   };
 
   useEffect(() => {
   const user = localStorage.getItem('user');
-  console.log(user);
+  //console.log(user);
   },[]);
 
   useEffect(() => {
     window.scrollTo(0,0)
-   },[])
+    if(paymentStatus){
+      localStorage.removeItem('cart');
+
+      setPaymentStatus(false);
+      window.location.href='/';
+    }
+   },[paymentStatus])
+
+   
    
 
   return (

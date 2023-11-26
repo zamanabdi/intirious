@@ -7,12 +7,18 @@ import { doc, getDoc } from 'firebase/firestore';
 import { toast } from 'react-toastify';
 import { addToCart } from '../../redux/cartSlice';
 import { fireDB } from '../../firebase/FirebaseConfig.jsx';
-import ProductCard from '../../components/productCard/productCard';
+import ProductCard from '../../components/productCard/ProductCard.jsx';
 import Loader from '../../components/loader/Loader.jsx';
+import { useNavigate } from 'react-router-dom';
+
 
 function ProductInfo() {
     const context = useContext(myContext);
-    const { loading, setLoading } = context;
+    const { loading, setLoading,product,mode,searchkey, setSearchkey,filterType,setFilterType,filterPrice,setFilterPrice } = context;
+    
+
+    const navigate = useNavigate();
+
 
     const [products, setProducts] = useState('')
     const params = useParams()
@@ -54,11 +60,17 @@ function ProductInfo() {
         localStorage.setItem('cart', JSON.stringify(cartItems));
     }, [cartItems])
 
+   
+    
 
     useEffect(() => {
         window.scrollTo(0,0)
        },[])
 
+       useEffect(() => {
+        setLoading(true);
+        getProductData();
+       },[params.id])
 
     return (
         <Layout>
@@ -72,10 +84,11 @@ function ProductInfo() {
                     src={products.imageUrl}
                 />
                 <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
-                    <h2 className="text-sm title-font text-gray-500 tracking-widest">
+                    <h2 className="text-sm title-font text-gray-500 tracking-widest"
+                    style={{ color: mode === "dark" ? "white" : "" }}>
                         Intirious Design and Collection
                     </h2>
-                    <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">
+                    <h1 className="text-gray-900 text-3xl title-font font-medium mb-1" style={{ color: mode === "dark" ? "white" : "" }}>
                         {products.title}
                     </h1>
                     <div className="flex mb-4">
@@ -176,12 +189,12 @@ function ProductInfo() {
                             </a>
                         </span>
                     </div>
-                    <p className="leading-relaxed border-b-2 mb-5 pb-5">
+                    <p className="leading-relaxed border-b-2 mb-5 pb-5" style={{ color: mode === "dark" ? "white" : "" }}>
                         {products.description}
                     </p>
 
                     <div className="flex">
-                        <span className="title-font font-medium text-2xl text-gray-900">
+                        <span className="title-font font-medium text-2xl text-gray-900" style={{ color: mode === "dark" ? "white" : "" }}>
                         ₹{products.price}
                         </span>
                         <button  onClick={()=>addCart(products)} className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
@@ -205,7 +218,11 @@ function ProductInfo() {
         </div>
 
         {/* Related product */}
-        <ProductCard message={"Related Products"}/>
+        <div>
+        {loading? <Loader/> : <ProductCard message={"Related Products"}/>}
+       
+        </div>
+        
     </section>}
             
 
